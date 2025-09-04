@@ -1,11 +1,12 @@
 import { useState } from 'react'
-import './Register.css'
+import { Box, Button, TextField, Typography } from '@mui/material'
 
 interface FormData {
   username: string
   email: string
   postalCode: string
   address: string
+  birthdate: string
   password: string
   confirmPassword: string
 }
@@ -16,6 +17,7 @@ export default function Register() {
     email: '',
     postalCode: '',
     address: '',
+    birthdate: '',
     password: '',
     confirmPassword: '',
   })
@@ -60,75 +62,88 @@ export default function Register() {
   }
 
   return (
-    <form className="form-container" onSubmit={handleSubmit}>
-      <h2>新規登録</h2>
-      <label>
-        ユーザー名
-        <input
-          type="text"
-          name="username"
-          value={formData.username}
+    <Box
+      component="form"
+      onSubmit={handleSubmit}
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 2,
+        maxWidth: 400,
+        mx: 'auto',
+        mt: 4,
+      }}
+    >
+      <Typography variant="h5" component="h2" textAlign="center">
+        新規登録
+      </Typography>
+      <TextField
+        label="ユーザー名"
+        name="username"
+        value={formData.username}
+        onChange={handleChange}
+        required
+      />
+      <TextField
+        label="メールアドレス"
+        type="email"
+        name="email"
+        value={formData.email}
+        onChange={handleChange}
+        required
+      />
+      <Box sx={{ display: 'flex', gap: 1 }}>
+        <TextField
+          label="郵便番号"
+          name="postalCode"
+          value={formData.postalCode}
           onChange={handleChange}
           required
         />
-      </label>
-      <label>
-        メールアドレス
-        <input
-          type="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-          required
-        />
-      </label>
-      <label>
-        郵便番号
-        <div className="postal-group">
-          <input
-            type="text"
-            name="postalCode"
-            value={formData.postalCode}
-            onChange={handleChange}
-            required
-          />
-          <button type="button" onClick={handleAddressSearch}>
-            住所検索
-          </button>
-        </div>
-      </label>
-      <label>
-        住所
-        <input
-          type="text"
-          name="address"
-          value={formData.address}
-          onChange={handleChange}
-          required
-        />
-      </label>
-      <label>
-        パスワード
-        <input
-          type="password"
-          name="password"
-          value={formData.password}
-          onChange={handleChange}
-          required
-        />
-      </label>
-      <label>
-        パスワード（確認）
-        <input
-          type="password"
-          name="confirmPassword"
-          value={formData.confirmPassword}
-          onChange={handleChange}
-          required
-        />
-      </label>
-      {error && <p className="error">{error}</p>}
-      <button type="submit">登録</button>
-    </form>
+        <Button variant="outlined" onClick={handleAddressSearch}>
+          住所検索
+        </Button>
+      </Box>
+      <TextField
+        label="住所"
+        name="address"
+        value={formData.address}
+        onChange={handleChange}
+        required
+      />
+      <TextField
+        label="生年月日"
+        type="date"
+        name="birthdate"
+        value={formData.birthdate}
+        onChange={handleChange}
+        InputLabelProps={{ shrink: true }}
+        required
+      />
+      <TextField
+        label="パスワード"
+        type="password"
+        name="password"
+        value={formData.password}
+        onChange={handleChange}
+        required
+      />
+      <TextField
+        label="パスワード（確認）"
+        type="password"
+        name="confirmPassword"
+        value={formData.confirmPassword}
+        onChange={handleChange}
+        required
+      />
+      {error && (
+        <Typography color="error" sx={{ mt: 1 }}>
+          {error}
+        </Typography>
+      )}
+      <Button type="submit" variant="contained">
+        登録
+      </Button>
+    </Box>
   )
 }
