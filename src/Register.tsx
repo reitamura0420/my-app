@@ -57,6 +57,23 @@ export default function Register() {
       setError('パスワードが一致しません')
       return
     }
+
+    if (formData.password.length < 8) {
+      setError('パスワードは8文字以上にしてください')
+      return
+    }
+
+    if (!/[A-Za-z]/.test(formData.password) || !/\d/.test(formData.password)) {
+      setError('パスワードは英字と数字を含めてください')
+      return
+    }
+
+    const birthDigits = formData.birthdate.replace(/-/g, '')
+    if (birthDigits && formData.password.includes(birthDigits)) {
+      setError('パスワードに生年月日を含めないでください')
+      return
+    }
+
     setError('')
     console.log('Registered:', formData)
   }
